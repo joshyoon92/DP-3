@@ -1,25 +1,22 @@
+class Solution {
+    public int deleteAndEarn(int[] nums) {
+        int max = Integer.MIN_VALUE;
+        for (int i=0; i<nums.length; i++){
+            max = Math.max(max, nums[i]);
+        }
+        int[] arr = new int[max+1];
 
-class DeleteEarn {
-    public int delEarn(int[] nums) {
-        int max = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (max < nums[i]) {
-                max = nums[i];
-            }
+        for (int num: nums) {
+            arr[num] += num;
         }
-        int[] hash = new int[max + 1];
-        for (int i = 0; i < nums.length; i++) {
-            hash[i] = 0;
+
+        int prev = arr[0];
+        int curr = Math.max(arr[0],arr[1]);
+        for (int i=2; i<arr.length; i++){
+            int temp = curr;
+            curr= Math.max(curr,prev+arr[i]);
+            prev = temp;
         }
-        for (int i = 0; i < max; i++) {
-            hash[i] += hash[nums[i]];
-        }
-        int skip = 0, take = 0;
-        for (int i = 0; i < max; i++) {
-            int temp = skip;
-            skip = Math.max(skip, take);
-            take = hash[i] + temp;
-        }
-        return Math.max(skip, take);
+        return curr;
     }
 }
